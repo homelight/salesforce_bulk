@@ -12,6 +12,7 @@ module SalesforceBulk
       data = XmlSimple.xml_in(response.body, 'ForceArray' => false)
       
       if data
+puts data.inspect
         # seems responses for CSV requests use a different XML return format 
         # (use invalid_error.xml for reference)
         if !data['exceptionMessage'].nil?

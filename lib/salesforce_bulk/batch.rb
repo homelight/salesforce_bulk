@@ -1,6 +1,6 @@
 module SalesforceBulk
   class Batch
-    
+
     attr_accessor :apex_processing_time
     attr_accessor :api_active_processing_time
     attr_accessor :completed_at
@@ -11,7 +11,7 @@ module SalesforceBulk
     attr_accessor :processed_records
     attr_accessor :state
     attr_accessor :total_processing_time
-    
+
     def self.new_from_xml(data)
       batch = self.new
       batch.id = data['id']
@@ -26,23 +26,23 @@ module SalesforceBulk
       batch.apex_processing_time = data['apex_processing_time'].to_i
       batch
     end
-    
+
     def in_progress?
       state? 'InProgress'
     end
-    
+
     def queued?
       state? 'Queued'
     end
-    
+
     def completed?
       state? 'Completed'
     end
-    
+
     def failed?
       state? 'Failed'
     end
-    
+
     def state?(value)
       self.state.present? && self.state.casecmp(value) == 0
     end
