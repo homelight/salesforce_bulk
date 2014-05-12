@@ -13,3 +13,23 @@ require 'salesforce_bulk/batch'
 require 'salesforce_bulk/batch_result'
 require 'salesforce_bulk/batch_result_collection'
 require 'salesforce_bulk/query_result_collection'
+
+# set the default @decode_content to true so that ruby 2.1.2 works the same as 1.9.3
+module HTTPResponseDecodeContentOverride
+  def initialize(h,c,m)
+    super(h,c,m)
+    @decode_content = true
+  end
+  def body
+    res = super
+    if self['content-length']
+      self['content-length']= res.bytesize
+    end
+    res
+  end
+end
+module Net
+  class HTTPResponse
+    prepend HTTPResponseDecodeContentOverride
+  end
+end
