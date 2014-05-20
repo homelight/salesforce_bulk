@@ -20,13 +20,6 @@ module HTTPResponseDecodeContentOverride
     super(h,c,m)
     @decode_content = true
   end
-  def body
-    res = super
-    if self['content-length']
-      self['content-length']= res.bytesize
-    end
-    res
-  end
 end
 module Net
   class HTTPResponse
